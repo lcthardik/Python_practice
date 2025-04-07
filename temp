@@ -1,0 +1,40 @@
+import serial
+import threading
+
+def read_from_port(ser):
+    while True:
+        try:
+            data = ser.readline().decode().strip()
+            if data:
+                print(f"[Device] {data}")
+        except Exception as e:
+            print(f"[Error] {e}")
+            break
+
+def main():
+    port = input("Enter COM port (e.g., COM3 or /dev/ttyUSB0): ")
+    baud = input("Enter baud rate (e.g., 9600): ")
+
+    try:
+        ser = serial.Serial(port, int(baud), timeout=1)
+        print(f"Connected to {port} at {baud} baud.")
+    except Exception as e:
+        print(f"[Error] Could not open serial port: {e}")
+        return
+
+    thread = threading.Thread(target=read_from_port, args=(ser,), daemon=True)
+    thread.start()
+
+    try:
+        while True:
+            msg = input(">> ")
+            if msg.lower() == 'exit':
+                break
+            ser.write((msg + '\n').encode())
+    except KeyboardInterrupt:
+        print("\n[Exiting]")
+
+    ser.close()
+
+if __name__ == "__main__":
+    main()
