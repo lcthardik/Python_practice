@@ -52,7 +52,7 @@ def game_over():
     canvas.create_text(300, 200, text="Game Over", fill="white", font=("Arial", 24))
 
 root = tk.Tk()
-root.title("Snake Game")
+root.title("Simple Snake Game")
 
 canvas = tk.Canvas(root, width=600, height=400, bg="black")
 canvas.pack()
