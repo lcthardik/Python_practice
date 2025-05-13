@@ -1,6 +1,6 @@
 import serial
 import threading
-
+####################
 def read_from_port(ser):
     while True:
         try:
